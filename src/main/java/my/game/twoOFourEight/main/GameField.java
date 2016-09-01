@@ -1,6 +1,4 @@
-package my.game.twoOFourEight;
-
-import static my.game.twoOFourEight.Constants.*;
+package my.game.twoOFourEight.main;
 
 public class GameField {
 
@@ -13,7 +11,7 @@ public class GameField {
      * инициализирует поле и зануляет его
      */
     public GameField(){
-        theField = new int[COUNT_CELLS_X][COUNT_CELLS_Y];
+        theField = new int[Constants.COUNT_CELLS_X][Constants.COUNT_CELLS_Y];
 
         for (int i = 0; i<theField.length; i++) {
             for (int j = 0; j<theField[i].length; j++)
@@ -72,7 +70,7 @@ public class GameField {
      * @param newLine Массив новых состояний ячеек строки
      */
     public void setLine(int i, int[] newLine) {
-        for (int j = 0; j < COUNT_CELLS_X; j++)
+        for (int j = 0; j < Constants.COUNT_CELLS_X; j++)
             theField[j][i] = newLine[j];
     }
 
@@ -83,9 +81,9 @@ public class GameField {
      * @return Массив состояний ячеек строки
      */
     public int[] getLine(int i){
-        int[] res = new int[COUNT_CELLS_X];
+        int[] res = new int[Constants.COUNT_CELLS_X];
 
-        for (int j = 0; j < COUNT_CELLS_X; j++)
+        for (int j = 0; j < Constants.COUNT_CELLS_X; j++)
             res[j] = theField[j][i];
 
         return res;

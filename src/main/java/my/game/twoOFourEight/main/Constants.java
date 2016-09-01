@@ -1,4 +1,4 @@
-package my.game.twoOFourEight;
+package my.game.twoOFourEight.main;
 
 
 public class Constants {
