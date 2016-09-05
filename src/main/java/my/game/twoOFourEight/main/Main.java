@@ -4,6 +4,7 @@ package my.game.twoOFourEight.main;
 import my.game.twoOFourEight.graphics.GraphicsModule;
 import my.game.twoOFourEight.graphics.lwjglmodule.LwjglGraphicsModule;
 import my.game.twoOFourEight.keyboard.KeyboardHandleModule;
+import my.game.twoOFourEight.keyboard.lwjglmodule.LwjglKeyboardHandleModule;
 
 import java.util.Random;
 
@@ -50,7 +51,7 @@ public class Main {
         isThere2048 = false;
         direction = Direction.AWAITING;
         graphicsModule = new LwjglGraphicsModule();
-        // TODO keyboardModule = new
+        keyboardModule = new LwjglKeyboardHandleModule();
         gameField = new GameField();
     }
 
@@ -58,7 +59,7 @@ public class Main {
      * создаем на поле начальные ячейки
      */
     private static void createInitialCells() {
-        for (int i = 0; i < Constants.COUNT_INITITAL_CELLS; i++)
+        for (int i = 0; i < Constants.COUNT_INITIAL_CELLS; i++)
             generateNewCell();
     }
 
@@ -190,6 +191,39 @@ public class Main {
                 break;
             case LEFT:
             case RIGHT:
+                 //По очереди сдвигаем числа всех строк в нужном направлении
+                for(int i = 0; i< Constants.COUNT_CELLS_Y; i++){
+                    //Запрашиваем очередную строку
+                    int[] arg = gameField.getLine(i);
+
+                    //В зависимости от направления сдвига, меняем или не меняем порядок чисел на противоположный
+                    if(direction==Direction.RIGHT){
+                        int[] tmp = new int[arg.length];
+                        for(int e = 0; e < tmp.length; e++){
+                            tmp[e] = arg[tmp.length-e-1];
+                        }
+                        arg = tmp;
+                    }
+
+                    //Пытаемся сдвинуть числа в этом столбце
+                    ShiftRowResult result = shiftRow (arg);
+
+                    //Возвращаем линию в исходный порядок
+                    if(direction==Direction.RIGHT){
+                        int[] tmp = new int[result.shiftedRow.length];
+                        for(int e = 0; e < tmp.length; e++){
+                            tmp[e] = result.shiftedRow[tmp.length-e-1];
+                        }
+                        result.shiftedRow = tmp;
+                    }
+
+                    //Записываем изменённую строку
+                    gameField.setLine(i, result.shiftedRow);
+
+                     //Если хоть одна линия была изменена, значит было изменено всё поле
+                    ret = ret || result.didAnythingMove;
+                }
+                break;
             default:
                 ErrorCatcher.shiftFailureWrongParam();
                 break;

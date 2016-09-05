@@ -24,5 +24,5 @@ public class Constants {
     public static final int INITIAL_CELL_STATE = 2;
 
     /* Количество определённых к первому ходу пользователя ячеек */
-    public static final int COUNT_INITITAL_CELLS = 2;
+    public static final int COUNT_INITIAL_CELLS = 2;
 }
